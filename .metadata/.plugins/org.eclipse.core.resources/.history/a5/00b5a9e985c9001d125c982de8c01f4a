@@ -1,0 +1,5 @@
+package com.maxtrain.bootcamp.sales.order;
+
+public class Order {
+
+}

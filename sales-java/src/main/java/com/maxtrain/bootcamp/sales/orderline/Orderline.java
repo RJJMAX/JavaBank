@@ -1,12 +1,13 @@
 package com.maxtrain.bootcamp.sales.orderline;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.maxtrain.bootcamp.sales.item.Item;
 import com.maxtrain.bootcamp.sales.order.Order;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="orderline")
+@Table(name="orderlines")
 public class Orderline {
 
 	@Id
@@ -14,6 +15,7 @@ public class Orderline {
 	private int id;
 	private int quantity;
 	
+	@JsonBackReference
 	@ManyToOne(optional=false)
 	@JoinColumn(name="orderId", columnDefinition="int")
 	private Order order;

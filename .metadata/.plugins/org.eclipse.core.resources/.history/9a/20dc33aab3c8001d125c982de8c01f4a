@@ -1,0 +1,23 @@
+package com.maxtrain.bankingapp.savings;
+
+import java.math.BigDecimal;
+
+import com.maxtrain.bankingapp.account.Account;
+
+public class Savings extends Account {
+	private BigDecimal interestRate;
+	
+	public BigDecimal getInterestRate() {
+		return interestRate;
+	}
+	public void setInterestRate(BigDecimal interestRate) {
+		this.interestRate = interestRate;
+	}
+	
+	public BigDecimal payInterest(int months) {
+		BigDecimal interest = balance * interestRate.divide(interestRate, 12) * months;
+		deposit(interest);
+		return(interest);
+	}
+	
+}

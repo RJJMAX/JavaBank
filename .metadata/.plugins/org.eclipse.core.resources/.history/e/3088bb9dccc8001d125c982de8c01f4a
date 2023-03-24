@@ -1,0 +1,19 @@
+package com.maxtrian.banking;
+
+public class Savings extends Account {
+
+	private double interestRate;
+	
+	public double getInterestRate() {
+		return interestRate;
+	}
+	public void setInterestRate(double interestRate) {
+		this.interestRate = interestRate;
+	}
+	public double payInterest(int months) {
+		(setBalance * (interestRate/12)* months);
+		var interest = balance * interestRate/12 * months;
+		deposit(interest);
+		return(interest);
+	}
+}

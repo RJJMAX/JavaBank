@@ -1,0 +1,57 @@
+package com.maxtrain.bootcamp.sales.orderline;
+
+import com.maxtrain.bootcamp.sales.item.Item;
+import com.maxtrain.bootcamp.sales.order.Order;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name="orderline")
+public class Orderline {
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
+	private int quantity;
+	
+	@ManyToOne(optional=false)
+	@JoinColumn(name="orderId", columnDefinition="int")
+	private Order order;
+	
+	@ManyToOne(optional=false)
+	@JoinColumn(name="itemId", columnDefinition="int")
+	private Item item;
+
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+	
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	public Item getItem() {
+		return item;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
+	}
+}

@@ -1,0 +1,14 @@
+package com.maxtrain.bootcamp.sales.orderline;
+
+import jakarta.persistence.*;
+
+public class Orderline {
+	private int id;
+	private int quantity;
+	@Id
+	@Column(name="orderId")
+	private int orderId;
+	@Id
+	@Column(name="itemId")
+	private int itemId;
+}

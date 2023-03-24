@@ -15,7 +15,6 @@ public class OrderController {
 	private final String Status_NEW = "NEW";
 	private final String Status_REVIEW = "REVIEW";
 	private final String Status_APPROVED = "APPROVED";
-	@SuppressWarnings("unused")
 	private final String Status_REJECTED = "REJECTED";
 	
 	@Autowired

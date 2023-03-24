@@ -1,10 +1,16 @@
 package com.maxtrain.bootcamp.sales.orderline;
 
+
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.Optional;
+
+import com.maxtrain.bootcamp.sales.item.Item;
+import com.maxtrain.bootcamp.sales.item.ItemRepository;
+import com.maxtrain.bootcamp.sales.order.Order;
+import com.maxtrain.bootcamp.sales.order.OrderRepository;
 
 @CrossOrigin
 @RestController
@@ -14,7 +20,34 @@ public class OrderlineController {
 	@Autowired
 	private OrderlineRepository olineRepo;
 	
-	@GetMapping
+	@Autowired
+	private OrderRepository ordRepo;
+	@Autowired
+	private ItemRepository itemRepo;
+	
+	
+	private boolean recalculateOrderTotal(int orderId) {
+		Optional<Order> anOrder = ordRepo.findById(orderId);
+				if(anOrder.isEmpty()) {
+				return false;
+				}
+				Order order = anOrder.get();
+				Iterable<Orderline> orderlines = olineRepo.findByOrderId(orderId);
+				double total = 0;
+				for(Orderline ol : orderlines) {
+					if(ol.getItem().getName() == null) {
+						Item item = itemRepo.findById(ol.getItem().getId()).get();
+						ol.setItem(item);
+					}
+					total += ol.getQuantity() * ol.getItem().getPrice();
+					}
+				order.setTotal(total);
+				ordRepo.save(order);
+				
+				return true;
+	}
+	
+		@GetMapping
 	public ResponseEntity<Iterable<Orderline>> getOrderlines(){
 		Iterable<Orderline> orderlines = olineRepo.findAll();
 		return new ResponseEntity<Iterable<Orderline>>(orderlines, HttpStatus.OK);
@@ -22,28 +55,46 @@ public class OrderlineController {
 	
 	@GetMapping("{id}")
 	public ResponseEntity<Orderline> getOrderlines(@PathVariable int id){
-		Optional<Orderline> orderline = olineRepo.findById(id);
+				Optional<Orderline> orderline = olineRepo.findById(id);
 		if(orderline.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Orderline>(orderline.get(), HttpStatus.OK);
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping
 	public ResponseEntity<Orderline> postOrderline(@RequestBody Orderline orderline){
 		Orderline newOrderline = olineRepo.save(orderline);
+		Optional<Order> order = ordRepo.findById(orderline.getOrder().getId());
+		if(!order.isEmpty()) {
+			boolean success = recalculateOrderTotal(order.get().getId());
+			if(!success) {
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			//return new ResponseEntity(HttpStatus.NO_CONTENT);/
+		}
 		return new ResponseEntity<Orderline>(newOrderline, HttpStatus.CREATED);
 	}
 	
+	
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PutMapping("{id}")
-	
-	public ResponseEntity<Orderline> putOrderlin(@PathVariable int id, @RequestBody Orderline orderline){
+		public ResponseEntity<Orderline> putOrderlin(@PathVariable int id, @RequestBody Orderline orderline){
 		if(orderline.getId() !=id) {
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		olineRepo.save(orderline);
+		Optional<Order> order = ordRepo.findById(orderline.getOrder().getId());
+		if(!order.isEmpty()) {
+			boolean success = recalculateOrderTotal(order.get().getId());
+			if(!success) {
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
 		return new ResponseEntity(HttpStatus.NO_CONTENT);
+		
 	}
 	
 	
@@ -55,6 +106,15 @@ public class OrderlineController {
 		return new ResponseEntity(HttpStatus.NOT_FOUND);
 	}
 	olineRepo.delete(orderline.get());
-	return new ResponseEntity(HttpStatus.NO_CONTENT);
+	Optional<Order> order = ordRepo.findById(orderline.get().getOrder().getId());
+	if(!order.isEmpty()) {
+		boolean success = recalculateOrderTotal(order.get().getId());
+		if(!success) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-}
+		return new ResponseEntity(HttpStatus.NO_CONTENT);
+	}
+	
+	}
+

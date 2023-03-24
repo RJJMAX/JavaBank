@@ -1,0 +1,24 @@
+package com.maxtrian.banking;
+
+public class Program {
+
+	public static void main(String[] args) {
+		
+		try {
+		
+			var account = new Account();
+		account.deposit(1000);
+		System.out.println("Balance is $" + account.getBalance());
+		account.withdraw(50);
+		System.out.println("Balance is $" + account.getBalance());
+		
+		var account2 = new Account();
+		account.transfer(75, account2);
+		System.out.println("Balance is $" + account.getBalance());
+		
+		} catch(Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
+
+}

@@ -1,0 +1,5 @@
+package com.maxtrain.bootcamp.sales.orderline;
+
+public class Orderline {
+
+}
