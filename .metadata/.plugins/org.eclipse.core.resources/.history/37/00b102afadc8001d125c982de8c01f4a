@@ -1,7 +1,0 @@
-package com.maxtrain.bankingapp.checking;
-
-import java.math.BigDecimal;
-
-public class Checking {
-
-}
