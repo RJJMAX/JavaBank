@@ -10221,3 +10221,6 @@ java.util.concurrent.TimeoutException
 
 !ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2023-03-30 15:28:11.797
 !MESSAGE ClasspathListenerHandler removeClasspathListener sts4.classpath.OYBkydvL => OK
+
+!ENTRY org.eclipse.help.base 2 0 2023-03-30 16:14:08.652
+!MESSAGE Unable to consume Lucene index from bundle 'org.eclipse.wst.server.ui.doc.user_1.1.600.v201901310132 [491]'. The index should be rebuilt with Lucene 8.4.1

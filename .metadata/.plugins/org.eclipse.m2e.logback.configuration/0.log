@@ -1488,3 +1488,7 @@
 2023-03-30 15:17:05,068 [Worker-90: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource
 2023-03-30 15:17:05,080 [Worker-90: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource
 2023-03-30 15:17:05,082 [Worker-90: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\repos\JAVA\PRS\src\test\resources
+2023-03-30 16:14:27,932 [Start Help Server] INFO  org.eclipse.jetty.server.Server - jetty-10.0.6; built: 2021-06-29T15:28:56.259Z; git: 37e7731b4b142a882d73974ff3bec78d621bd674; jvm 17.0.2+8
+2023-03-30 16:14:27,983 [Start Help Server] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2023-03-30 16:14:28,040 [Start Help Server] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@2f1765f8{/help,null,AVAILABLE}
+2023-03-30 16:14:28,071 [Start Help Server] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@7c5de9d1{HTTP/1.1, (http/1.1)}{127.0.0.1:62743}
